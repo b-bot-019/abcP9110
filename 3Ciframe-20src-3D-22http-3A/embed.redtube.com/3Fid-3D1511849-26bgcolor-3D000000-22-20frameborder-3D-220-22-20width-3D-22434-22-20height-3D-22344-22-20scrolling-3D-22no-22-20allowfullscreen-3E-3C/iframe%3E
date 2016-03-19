@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html ng-app="spark.extension.content.captureFrame">
+<head lang="en">
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="css/capture-frame.css">
+    <title></title>
+</head>
+<body ng-controller="captureController" style="visibility:hidden;" >
+<div class="container-main" ng-show="captureState.capturing" ng-class="{hidecursor: !captureState.confirmation}" ng-cloak>
+    <div class="darkbox-container" ng-show="captureState.dragging || captureState.confirmation">
+        <div class="darkbox-quad darkbox-top"></div>
+        <div class="darkbox-quad darkbox-right"></div>
+        <div class="darkbox-quad darkbox-bottom"></div>
+        <div class="darkbox-quad darkbox-left"></div>
+    </div>
+    <div class="crosshair-container" ng-hide="captureState.confirmation" ng-cloak>
+        <div class="crosshair crosshair-horizontal"></div>
+        <div class="crosshair crosshair-vertical"></div>
+        <div class="dimension-info" ng-bind="captureState.dimensionInfoString"></div>
+    </div>
+    <div class="help-text-container" ng-hide="captureState.confirmation" ng-cloak>
+        <span class="help-text"><i18n key="captureFrame_helpTextCaptureRegion"></i18n></span>
+    </div>
+    <div id="capture-confirmation" class="capture-confirmation" ng-show="captureState.confirmation" ng-cloak
+         movable resizable>
+        <div class="controls">
+            <button class="button-confirm" style="margin-left: -0.5px;" ng-click="captureState.finishCapture()">
+                <img ng-src="assets/img/capture/regionSelector-imageButton.png" />
+            </button>
+            <div class="dimensions"></div>
+            <button class="button-cancel" ng-click="captureState.cancelCapture()">
+                <img ng-src="assets/img/capture/regionSelector-cancelButton.png" />
+            </button>
+        </div>
+        <div class="handle handle-corner handle-nw"></div>
+        <div class="handle handle-n"></div>
+        <div class="handle handle-corner handle-ne"></div>
+        <div class="handle handle-e"></div>
+        <div class="handle handle-corner handle-se"></div>
+        <div class="handle handle-s"></div>
+        <div class="handle handle-corner handle-sw"></div>
+        <div class="handle handle-w"></div>
+    </div>
+</div>
+
+<div ng-if="captureState.showOnboarding">
+    <div class="onboarding-cover"></div>
+    <div class="container-onboarding" >
+        <div class="onboarding-title">
+            <span class="onboarding-title-content"><i18n key="captureFrame_helpTextOnboardingTitle"></i18n></span>
+            <button class="onboarding-close-button" ng-click="captureState.finishOnboarding()">&times;</button>
+        </div>
+        <div class="onboarding-content">
+            <video loop-video loop-delay="{{onboarding.videoLoopDelay}}" id="onboarding-video" ng-src="{{onboarding.videoUrl}}" autoplay="true"></video>
+            <button class="onboarding-continue" ng-click="captureState.finishOnboarding()">
+                <i18n key="captureFrame_helpTextFinishOnboarding"></i18n>
+            </button>
+        </div>
+    </div>
+
+</div>
+
+<script src="vendor/angular/angular.js"></script>
+<script src="js/common.js"></script>
+<script src="js/extension.common.js"></script>
+<script src="js/captureFrame.js"></script>
+</body>
+</html>
